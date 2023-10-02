@@ -1,26 +1,36 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from '../Config/firebaseConfig';
 
 export const AuthContext =createContext(null)
 const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({children}) => {
 
   const [user,setUser]=useState({})
 
+  const [loading,setLoading]=useState(true)
+
   // login
 
   const googleLogin=()=>{
+    setLoading(true)
    return signInWithPopup(auth, googleProvider)
+  }
+  const githubLogin=()=>{
+    setLoading(true)
+   return signInWithPopup(auth, githubProvider)
   }
 
   // sing up
   const createUser=( email, password)=>{
+    setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
   const signin=(email,password)=>{
+    setLoading(true)
     return signInWithEmailAndPassword(auth, email, password)
   }
 
@@ -34,6 +44,7 @@ const AuthProvider = ({children}) => {
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
     setUser(user)
+    setLoading(false)
     });
   },[])
 
@@ -44,7 +55,9 @@ const AuthProvider = ({children}) => {
     createUser,
     signin,
     logOut,
-    user
+    user,
+    loading,
+    githubLogin
 
   }
 
