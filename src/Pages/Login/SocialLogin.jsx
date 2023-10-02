@@ -1,14 +1,21 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
-
+    
+    const navigate=useNavigate()
     const {user,googleLogin, githubLogin}=useContext(AuthContext)
 
     const handleSocialLogin=(media)=>{
         media()
-        .then(res=>console.log(res))
-        .catch(err => console.log(err))
+        .then(res => {
+            toast.success('User login ')
+            navigate('/')
+        })
+        .catch(error =>{
+            toast.error(error.massage)
+        })
     }
     return (
         <>

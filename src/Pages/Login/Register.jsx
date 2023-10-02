@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SocialLogin from './SocialLogin';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
@@ -7,7 +7,9 @@ import toast from 'react-hot-toast';
 
 const Register = () => {
 
-  const {createUser}=useAuth()
+  const {createUser,handelUpdateProfai}=useAuth()
+
+  const navigate=useNavigate()
 
   const handelSubmit =(e)=>{
     e.preventDefault()
@@ -25,8 +27,16 @@ const Register = () => {
 
     // create a new user
     createUser(email,password)
-    .then(res => console.log(res.user))
-    .catch(error =>console.log(error))
+    .then(res => {
+        handelUpdateProfai(name,img)
+        .then(()=>{
+            toast.success('User create ')
+            navigate('/')
+        })
+    })
+    .catch(error =>{
+        toast.error(error.massage)
+    })
    
   }
     return (

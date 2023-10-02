@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SocialLogin from './SocialLogin';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 
 const Login = () => {
+    const navigate=useNavigate()
 
     const {signin}=useAuth();
 
@@ -23,8 +24,13 @@ const Login = () => {
     
         // create a new user
         signin(email,password)
-        .then(res => console.log(res.user))
-        .catch(error =>console.log(error))
+        .then(res => {
+            toast.success('User login ')
+            navigate('/')
+        })
+        .catch(error =>{
+            toast.error(error.massage)
+        })
        
       }
     return (
