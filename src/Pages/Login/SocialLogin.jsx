@@ -26,7 +26,7 @@ const SocialLogin = () => {
                 className="btn btn-neutral btn-sm">Google</button>
                 <button
                 onClick={()=>handleSocialLogin( githubLogin)}
-                className="btn btn-neutral btn-sm">Github</button>
+                
             </div>
         </>
     );
